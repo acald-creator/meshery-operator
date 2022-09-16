@@ -77,7 +77,7 @@ run-lint:
 	go run github.com/golangci/golangci-lint/cmd/golangci-lint run
 
 get-lint:
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.43.0
+	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.49.0
 
 # Run meshery error utility against code
 error:
@@ -105,7 +105,7 @@ ifeq (, $(shell which controller-gen))
 	CONTROLLER_GEN_TMP_DIR=$$(mktemp -d) ;\
 	cd $$CONTROLLER_GEN_TMP_DIR ;\
 	go mod init tmp ;\
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.6.1 ;\
+	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.9.2 ;\
 	rm -rf $$CONTROLLER_GEN_TMP_DIR ;\
 	}
 CONTROLLER_GEN=$(GOBIN)/controller-gen
@@ -120,7 +120,7 @@ ifeq (, $(shell which kustomize))
 	KUSTOMIZE_GEN_TMP_DIR=$$(mktemp -d) ;\
 	cd $$KUSTOMIZE_GEN_TMP_DIR ;\
 	go mod init tmp ;\
-	go get sigs.k8s.io/kustomize/kustomize/v3@v3.5.4 ;\
+	go get sigs.k8s.io/kustomize/kustomize/v4@latest ;\
 	rm -rf $$KUSTOMIZE_GEN_TMP_DIR ;\
 	}
 KUSTOMIZE=$(GOBIN)/kustomize

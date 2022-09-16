@@ -20,16 +20,14 @@ import (
 	"path/filepath"
 	"testing"
 
-	. "github.com/onsi/ginkgo"
+	"github.com/layer5io/meshkit/logger"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
+	"k8s.io/kubectl/pkg/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
-	"sigs.k8s.io/controller-runtime/pkg/envtest/printer"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
-
-	"github.com/layer5io/meshkit/logger"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -43,11 +41,43 @@ var testEnv *envtest.Environment
 func TestAPIs(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	RunSpecsWithDefaultAndCustomReporters(t,
-		"apis Suite for meshsync and broker",
-		[]Reporter{printer.NewlineReporter{}})
+	RunSpecs(t, "apis Suite for meshsync and broker")
 }
 
+var _ = BeforeSuite(func() {
+	done := make(chan interface{})
+
+	var err error
+
+	log, err := logger.New("meshery-operator-test", logger.Options{
+		Format: logger.SyslogLogFormat,
+	})
+	Expect(err).ToNot(HaveOccurred())
+
+	logf.SetLogger(log.ControllerLogger())
+
+	By("bootstraping test environment")
+	testEnv = &envtest.Environment{
+		CRDDirectoryPaths: []string{filepath.Join("..", "..", "config", "crd", "bases")},
+	}
+
+	cfg, err = testEnv.Start()
+	Expect(err).ToNot(HaveOccurred())
+	Expect(cfg).ToNot(BeNil())
+
+	// +kubebuilder:scaffold:scheme
+
+	err = SchemeBuilder.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).ToNot(HaveOccurred())
+	Expect(k8sClient).ToNot(BeNil())
+
+	close(done)
+})
+
+/*
 var _ = BeforeSuite(func(done Done) {
 	var err error
 	// Initialize Logger instance
@@ -80,6 +110,7 @@ var _ = BeforeSuite(func(done Done) {
 
 	close(done)
 }, 60)
+*/
 
 var _ = AfterSuite(func() {
 	By("tearing down the test environment")

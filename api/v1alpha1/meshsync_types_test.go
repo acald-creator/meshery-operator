@@ -3,7 +3,7 @@ package v1alpha1
 import (
 	"context"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -11,9 +11,9 @@ import (
 )
 
 /*
-  Here we do not want test CURD of kubernetes service, we want to confirm that:
-  * our CRDs resouces group version could be support by specific kubernetes server
-  * the specific value of the CRDs field can be workwell without pruning by the api-server to etcd
+Here we do not want test CURD of kubernetes service, we want to confirm that:
+* our CRDs resouces group version could be support by specific kubernetes server
+* the specific value of the CRDs field can be workwell without pruning by the api-server to etcd
 */
 var _ = Describe("The test case for the meshsync CRDs", func() {
 
