@@ -7,13 +7,11 @@ replace (
 	github.com/kudobuilder/kuttl => github.com/layer5io/kuttl v0.4.1-0.20200806180306-b7e46afd657f
 	golang.org/x/xerrors => golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f
 	vbom.ml/util => github.com/fvbommel/util v0.0.0-20180919145318-efcd4e0f9787
-// cloud.google.com/go => cloud.google.com/go v0.0.0-20180919145318-efcd4e0f9787
-// golang.org/x/sys => golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6
 )
 
 require (
 	github.com/go-logr/logr v1.2.3
-	github.com/layer5io/meshkit v0.6.0
+	github.com/layer5io/meshkit v0.6.1
 	github.com/onsi/ginkgo/v2 v2.1.6
 	github.com/onsi/gomega v1.20.2
 	k8s.io/api v0.25.1
