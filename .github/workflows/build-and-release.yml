@@ -1,4 +1,4 @@
-name: Meshery-Operator Build and Releaser
+name: Meshery-Operator Build and Release
 on:
   push:
     branches:
